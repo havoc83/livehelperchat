@@ -9,7 +9,7 @@ if ($dashboardOrder === null) {
 }
 
 $columnsTotal = count($dashboardOrder);
-$columnSize = 12 / $columnsTotal;
+$columnSize = ($columnsTotal==0?0:12/$columnsTotal);
 
 ?>
 <div class="row" id="dashboard-body" ng-init='lhc.setUpListNames(["actived","closedd","unreadd","pendingd","operatord","departmentd"])'>

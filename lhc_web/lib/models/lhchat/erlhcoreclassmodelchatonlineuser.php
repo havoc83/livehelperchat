@@ -548,7 +548,7 @@ class erLhcoreClassModelChatOnlineUser
 
         $timeoutCleanup = erLhcoreClassModelChatConfig::fetch('tracked_users_cleanup')->current_value;
 
-        $stmt = $db->prepare('DELETE T2 FROM lh_abstract_proactive_chat_event as T2 INNER JOIN lh_chat_online_user as T1 ON T1.id = T2.vid_id WHERE last_visit < :last_activity');
+        $stmt = $db->prepare('DELETE FROM lh_abstract_proactive_chat_event WHERE vid_id IN (SELECT id FROM lh_chat_online_user WHERE last_visit < :last_activity)');
         $stmt->bindValue(':last_activity', (int)(time() - $timeoutCleanup * 24 * 3600), PDO::PARAM_INT);
         $stmt->execute();
 

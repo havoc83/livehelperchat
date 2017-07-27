@@ -7,7 +7,7 @@ class erLhcoreClassUserUtils
         $remap = array();
         
         if (!empty($userlist)) {
-            $sql = "SELECT user_id,active_chats FROM lh_userdep WHERE user_id IN (" . implode(',', array_keys($userlist)) . ') GROUP by user_id';
+            $sql = "SELECT user_id,COUNT(active_chats) FROM lh_userdep WHERE user_id IN (" . implode(',', array_keys($userlist)) . ') GROUP by user_id';
             $db = ezcDbInstance::get();
             $stmt = $db->prepare($sql);
             $stmt->execute();

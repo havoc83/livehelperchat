@@ -3,10 +3,12 @@
 class erLhcoreClassLazyDatabaseConfiguration implements ezcBaseConfigurationInitializer
 {
      private static $connectionMaster;
-
+     //Find a way to bring this in dynamically.
+     public static $dbhost = 'pgsql';
      public static function configureObject( $instance )
      {
          $cfg = erConfigClassLhConfig::getInstance();
+         $dbhost = self::$dbhost;
          switch ( $instance )
          {
              case 'slave':
@@ -25,7 +27,7 @@ class erLhcoreClassLazyDatabaseConfiguration implements ezcBaseConfigurationInit
                      // Perhaps connection is already done with master?
                      if (isset(self::$connectionMaster)) return self::$connectionMaster;
                      try {
-                        $db = ezcDbFactory::create( "mysql://{$cfg->getSetting( 'db', 'user' )}:{$cfg->getSetting( 'db', 'password' )}@{$cfg->getSetting( 'db', 'host' )}:{$cfg->getSetting( 'db', 'port' )}/{$cfg->getSetting( 'db', 'database' )}" );
+                        $db = ezcDbFactory::create("{$dbhost}://{$cfg->getSetting( 'db', 'user' )}:{$cfg->getSetting( 'db', 'password' )}@{$cfg->getSetting( 'db', 'host' )}:{$cfg->getSetting( 'db', 'port' )}/{$cfg->getSetting( 'db', 'database' )}" );
                         $db->query('SET NAMES utf8');
                         self::$connectionMaster = $db;
                         return $db;
@@ -50,9 +52,13 @@ class erLhcoreClassLazyDatabaseConfiguration implements ezcBaseConfigurationInit
              case false: // Default instance
              {
                 try {
-                    if (isset(self::$connectionMaster)) return self::$connectionMaster; // If we do not user slaves and slave request already got connection
-                    $db = ezcDbFactory::create( "mysql://{$cfg->getSetting( 'db', 'user' )}:{$cfg->getSetting( 'db', 'password' )}@{$cfg->getSetting( 'db', 'host' )}:{$cfg->getSetting( 'db', 'port' )}/{$cfg->getSetting( 'db', 'database' )}" );
-                    $db->query('SET NAMES utf8');
+                  if (isset(self::$connectionMaster)) return self::$connectionMaster; // If we do not user slaves and slave request already got connection
+                    $db = ezcDbFactory::create("{$dbhost}://{$cfg->getSetting( 'db', 'user' )}:{$cfg->getSetting( 'db', 'password' )}@{$cfg->getSetting( 'db', 'host' )}:{$cfg->getSetting( 'db', 'port' )}/{$cfg->getSetting( 'db', 'database' )}" );
+                    $db->query('SET search_path TO '.$cfg->getSetting( 'db', 'search_path'));
+                    
+                    //$def->idProperty->generator = new ezcPersistentGeneratorDefinition(  'ezcPersistentSequenceGenerator' );
+                    //$def->idProperty->generator->params['sequence'] = 'lh_article_id_seq';
+                    
                     self::$connectionMaster = $db;
                     return $db;
                 } catch (Exception $e) {
