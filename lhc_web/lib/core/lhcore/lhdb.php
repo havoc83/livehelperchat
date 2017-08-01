@@ -4,11 +4,9 @@ class erLhcoreClassLazyDatabaseConfiguration implements ezcBaseConfigurationInit
 {
      private static $connectionMaster;
      //Find a way to bring this in dynamically.
-     public static $dbhost = 'pgsql';
      public static function configureObject( $instance )
      {
          $cfg = erConfigClassLhConfig::getInstance();
-         $dbhost = self::$dbhost;
          switch ( $instance )
          {
              case 'slave':
@@ -53,7 +51,7 @@ class erLhcoreClassLazyDatabaseConfiguration implements ezcBaseConfigurationInit
              {
                 try {
                   if (isset(self::$connectionMaster)) return self::$connectionMaster; // If we do not user slaves and slave request already got connection
-                    $db = ezcDbFactory::create("{$dbhost}://{$cfg->getSetting( 'db', 'user' )}:{$cfg->getSetting( 'db', 'password' )}@{$cfg->getSetting( 'db', 'host' )}:{$cfg->getSetting( 'db', 'port' )}/{$cfg->getSetting( 'db', 'database' )}" );
+                  $db = ezcDbFactory::create("{$cfg->getSetting('db', 'driver')}://{$cfg->getSetting( 'db', 'user' )}:{$cfg->getSetting( 'db', 'password' )}@{$cfg->getSetting( 'db', 'host' )}:{$cfg->getSetting( 'db', 'port' )}/{$cfg->getSetting( 'db', 'database' )}" );
                     $db->query('SET search_path TO '.$cfg->getSetting( 'db', 'search_path'));
                     
                     //$def->idProperty->generator = new ezcPersistentGeneratorDefinition(  'ezcPersistentSequenceGenerator' );

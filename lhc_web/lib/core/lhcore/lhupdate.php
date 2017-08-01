@@ -47,7 +47,8 @@ class erLhcoreClassUpdate
 		foreach ($definition['tables'] as $table => $tableDefinition) {
 			$tablesStatus[$table] = array('error' => false,'status' => '','queries' => array());
 			try {
-				$sql = 'SHOW COLUMNS FROM '.$table;
+				//$sql = 'SHOW COLUMNS FROM '.$table;
+			    $sql =  "SELECT column_name AS field, data_type AS type FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table}'";
 				$stmt = $db->prepare($sql);
 				$stmt->execute();
 				$columnsData = $stmt->fetchAll(PDO::FETCH_ASSOC);				

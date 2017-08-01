@@ -11,6 +11,10 @@
 <h2>Database settings</h2>
 
 <table class="table">
+	<tr>
+        <td>Database Driver</td>
+        <td><select name = "DatabaseDriver" class="form-control"><option value="mysql" selected>MySQL</option><option value="pgsql">PostgreSQL</option></select></td>
+    </tr>
     <tr>
         <td>Username</td>
         <td><input class="form-control" type="text" name="DatabaseUsername" value="<?php echo isset($db_username) ? htmlspecialchars($db_username) : ''?>" /></td>

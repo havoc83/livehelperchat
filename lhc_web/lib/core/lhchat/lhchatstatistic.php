@@ -9,29 +9,30 @@ class erLhcoreClassChatStatistic {
 //This formats db unix commands based on the type of database they being sent to.  Throws an exception if not in proper date format.
     public static function databaseUnixCommands($field,$timeFormat,$dateUnix)
     {
-	if(erLhcoreClassLazyDatabaseConfiguration::$dbhost == 'pgsql'){
-	  if($timeFormat == '%k'){
-	   $databaseUnixCommand = "(extract(hour from (to_timestamp({$field}))))::int = ".$dateUnix;
-	  }else if($timeFormat == '%Y%m'){
-	  $timeFormat = 'YYYYMM';
-	  $databaseUnixCommand = "to_char(date(to_timestamp({$field})),'{$timeFormat}') = '". date('Ym',$dateUnix)."'";			
-	  }else if($timeFormat == '%Y%m%d'){
-          $timeFormat = 'YYYYMMDD';
-	  $databaseUnixCommand = "to_char(date(to_timestamp({$field})),'{$timeFormat}') = '". date('Ymd',$dateUnix)."'";
+      $cmd = erConfigClassLhConfig::getInstance();
+      if($cmd->getSetting('db', 'driver') == 'pgsql'){
+    	  if($timeFormat == '%k'){
+    	   $databaseUnixCommand = "(extract(hour from (to_timestamp({$field}))))::int = ".$dateUnix;
+    	  }else if($timeFormat == '%Y%m'){
+    	  $timeFormat = 'YYYYMM';
+    	  $databaseUnixCommand = "to_char(date(to_timestamp({$field})),'{$timeFormat}') = '". date('Ym',$dateUnix)."'";			
+    	  }else if($timeFormat == '%Y%m%d'){
+              $timeFormat = 'YYYYMMDD';
+    	  $databaseUnixCommand = "to_char(date(to_timestamp({$field})),'{$timeFormat}') = '". date('Ymd',$dateUnix)."'";
           }else{
           throw new Exception('Improper Date Format for Database.');
           }  
-	}else{
-	  if($timeFormat == '%k'){
-	  $databaseUnixCommand =  "FROM_UNIXTIME({$field},'{$timeFormat}') = ". $dateUnix;
- 	  }else if($timeFormat == '%Y%m'){
-	  $databaseUnixCommand = "FROM_UNIXTIME({$field},'{$timeFormat}') = ". date('Ym',$dateUnix);
-          }else if($timeFormat == '%Y%m%d'){
-	  $databaseUnixCommand = "FROM_UNIXTIME({$field},'{$timeFormat}') = ". date('Ymd',$dateUnix);
-	  }else{
-	  throw new Exception('Improper Date Format for Database.');
-	  }
-        }
+	 }else{
+    	  if($timeFormat == '%k'){
+    	  $databaseUnixCommand =  "FROM_UNIXTIME({$field},'{$timeFormat}') = ". $dateUnix;
+     	  }else if($timeFormat == '%Y%m'){
+    	  $databaseUnixCommand = "FROM_UNIXTIME({$field},'{$timeFormat}') = ". date('Ym',$dateUnix);
+              }else if($timeFormat == '%Y%m%d'){
+    	  $databaseUnixCommand = "FROM_UNIXTIME({$field},'{$timeFormat}') = ". date('Ymd',$dateUnix);
+    	  }else{
+    	  throw new Exception('Improper Date Format for Database.');
+    	  }
+          }
         return $databaseUnixCommand;
      }
 
