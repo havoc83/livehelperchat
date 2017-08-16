@@ -5,7 +5,8 @@
 <form action="<?php echo erLhcoreClassDesign::baseurl('install/install')?>/1" method="POST">
 
 <div class="panel">
-  <p>You will need to grant write permissions on any of the red-marked folders. You can do this by changing its username to your web server's username or by changing permissions with a CHMOD 777 on the displayed files/folders.</p>
+  <p>You will need to grant write permissions on any of the red-marked folders. You can do this by changing its username to your web server's username or by changing permissions with a CHMOD 777 on the displayed files/folders.
+  You may need to restart Apache after installing php modules.</p>
 </div>
 
 <h2>Checking folders permission</h2>
@@ -69,7 +70,7 @@
     </tr>
     <tr>
         <td>Is the php-pdo extension installed</td>
-        <td><?php echo extension_loaded ('pdo_mysql' ) ? '<span class="label label-success">Yes</span>' : '<span class="label label-danger">No</span>'; ?></td>
+        <td><?php echo extension_loaded ('pdo_mysql' ) || extension_loaded ('pdo_pgsql' ) ? '<span class="label label-success">Yes</span>' : '<span class="label label-danger">No</span>'; ?></td>
     </tr>
     <tr>
         <td>Is the gd extension installed</td>

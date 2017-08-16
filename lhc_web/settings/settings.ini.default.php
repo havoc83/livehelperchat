@@ -101,6 +101,7 @@ return array (
       'database' => '',
       'port' => 3306,
       'use_slaves' => false,
+      'search_path' => 'public',
       'db_slaves' =>
       array (
         0 =>

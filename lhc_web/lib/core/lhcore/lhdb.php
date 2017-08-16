@@ -3,7 +3,6 @@
 class erLhcoreClassLazyDatabaseConfiguration implements ezcBaseConfigurationInitializer
 {
      private static $connectionMaster;
-     //Find a way to bring this in dynamically.
      public static function configureObject( $instance )
      {
          $cfg = erConfigClassLhConfig::getInstance();
@@ -14,7 +13,7 @@ class erLhcoreClassLazyDatabaseConfiguration implements ezcBaseConfigurationInit
                      try {
         		         $dbSlaves = $cfg->getSetting( 'db', 'db_slaves' );
         		         $slaveParams = $dbSlaves[rand(0,count($dbSlaves)-1)];
-                         $db = ezcDbFactory::create( "mysql://{$slaveParams['user']}:{$slaveParams['password']}@{$slaveParams['host']}:{$slaveParams['port']}/{$slaveParams['database']}" );
+        		         $db = ezcDbFactory::create( "{$slaveParams['driver']}://{$slaveParams['user']}:{$slaveParams['password']}@{$slaveParams['host']}:{$slaveParams['port']}/{$slaveParams['database']}" );
                          $db->query('SET NAMES utf8');
                      } catch (Exception $e){
                          error_log($e);
@@ -25,7 +24,7 @@ class erLhcoreClassLazyDatabaseConfiguration implements ezcBaseConfigurationInit
                      // Perhaps connection is already done with master?
                      if (isset(self::$connectionMaster)) return self::$connectionMaster;
                      try {
-                        $db = ezcDbFactory::create("{$dbhost}://{$cfg->getSetting( 'db', 'user' )}:{$cfg->getSetting( 'db', 'password' )}@{$cfg->getSetting( 'db', 'host' )}:{$cfg->getSetting( 'db', 'port' )}/{$cfg->getSetting( 'db', 'database' )}" );
+                         $db = ezcDbFactory::create("{$cfg->getSetting('db', 'driver')}://{$cfg->getSetting( 'db', 'user' )}:{$cfg->getSetting( 'db', 'password' )}@{$cfg->getSetting( 'db', 'host' )}:{$cfg->getSetting( 'db', 'port' )}/{$cfg->getSetting( 'db', 'database' )}" );
                         $db->query('SET NAMES utf8');
                         self::$connectionMaster = $db;
                         return $db;
