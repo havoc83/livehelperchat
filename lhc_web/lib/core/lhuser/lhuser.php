@@ -354,7 +354,7 @@ class erLhcoreClassUser{
                          $stmt->bindValue(':lactivity',time(),PDO::PARAM_INT);
                          $stmt->execute();
                      } else {
-                         $stmt = $db->prepare('INSERT INTO lh_users_online_session SET time = :time, lactivity = :lactivity, duration = 0, user_id = :user_id');
+                         $stmt = $db->prepare('INSERT INTO lh_users_online_session (time,lactivity,duration,user_id) VALUES (:time, :lactivity, 0, :user_id)');
                          $stmt->bindValue(':lactivity',time(),PDO::PARAM_INT);
                          $stmt->bindValue(':time',time(),PDO::PARAM_INT);
                          $stmt->bindValue(':user_id',$this->userid,PDO::PARAM_INT);
