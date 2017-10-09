@@ -69,7 +69,7 @@
     </tr>
     <tr>
         <td>Is the php-pdo extension installed</td>
-        <td><?php echo extension_loaded ('pdo_mysql' ) ? '<span class="label label-success">Yes</span>' : '<span class="label label-danger">No</span>'; ?></td>
+        <td><?php echo extension_loaded ('pdo_mysql')||extension_loaded('pdo_pgsql') ? '<span class="label label-success">Yes</span>' : '<span class="label label-danger">No</span>'; ?></td>
     </tr>
     <tr>
         <td>Is the gd extension installed</td>
@@ -92,5 +92,4 @@
 
 <input type="submit" class="btn btn-default" value="Next" name="Install">
 <br /><br />
-
 </form>

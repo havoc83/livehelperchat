@@ -175,7 +175,7 @@ class erLhcoreClassModelUserDep {
 	   	$filter['filtergt']['last_activity'] = time()-$onlineTimeout;
 	   	$filter['limit'] = $limit;
 	   	$filter['sort'] = 'active_chats DESC, hide_online ASC';
-	   	$filter['groupby'] = 'user_id';
+	   	//$filter['groupby'] = 'user_id';
 
 	   	$filter = array_merge_recursive($filter,$params);
 	   	   	

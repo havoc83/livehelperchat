@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `lh_chat` (
 	`country_name` varchar(100) NOT NULL,
 	`unanswered_chat` int(11) NOT NULL,
 	`user_typing` int(11) NOT NULL,
-	`user_typing_txt` varchar(50) NOT NULL,
+	`user_typing_txt` varchar(100) NOT NULL,
 	`operator_typing` int(11) NOT NULL,
 	`operator_typing_id` int(11) NOT NULL,
 	`phone` varchar(100) NOT NULL,

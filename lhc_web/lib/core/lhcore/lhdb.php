@@ -3,7 +3,6 @@
 class erLhcoreClassLazyDatabaseConfiguration implements ezcBaseConfigurationInitializer
 {
      private static $connectionMaster;
-     //Find a way to bring this in dynamically.
      public static function configureObject( $instance )
      {
          $cfg = erConfigClassLhConfig::getInstance();
@@ -25,7 +24,7 @@ class erLhcoreClassLazyDatabaseConfiguration implements ezcBaseConfigurationInit
                      // Perhaps connection is already done with master?
                      if (isset(self::$connectionMaster)) return self::$connectionMaster;
                      try {
-                        $db = ezcDbFactory::create("{$dbhost}://{$cfg->getSetting( 'db', 'user' )}:{$cfg->getSetting( 'db', 'password' )}@{$cfg->getSetting( 'db', 'host' )}:{$cfg->getSetting( 'db', 'port' )}/{$cfg->getSetting( 'db', 'database' )}" );
+                        $db = ezcDbFactory::create("{$cfg->getSetting('db','driver')}://{$cfg->getSetting( 'db', 'user' )}:{$cfg->getSetting( 'db', 'password' )}@{$cfg->getSetting( 'db', 'host' )}:{$cfg->getSetting( 'db', 'port' )}/{$cfg->getSetting( 'db', 'database' )}" );
                         $db->query('SET NAMES utf8');
                         self::$connectionMaster = $db;
                         return $db;

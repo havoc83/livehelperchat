@@ -22,7 +22,7 @@ if (is_object($chat) && $chat->hash == $Params['user_parameters']['hash'])
 		    $chat->is_user_typing = 1;
 		    $chat->user_closed_ts = time();
 		    $chat->user_typing_txt = htmlspecialchars_decode(erTranslationClassLhTranslation::getInstance()->getTranslation('chat/userleftchat','Visitor has left the chat!'),ENT_QUOTES);
-
+            $chat->status = 2;
 		    $explicitClosed = false;
 		    
 		    if ($Params['user_parameters_unordered']['eclose'] == 't') {
@@ -44,7 +44,7 @@ if (is_object($chat) && $chat->hash == $Params['user_parameters']['hash'])
     	        $msg->chat_id = $chat->id;
     	        $msg->user_id = -1;
     	        $msg->time = time();
-    	    
+    	        
     	        erLhcoreClassChat::getSession()->save($msg);
     	    
     	        $chat->last_user_msg_time = $msg->time;
